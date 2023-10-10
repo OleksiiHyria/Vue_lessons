@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style/style_task.css">
+    <title>Additional task 3</title>
+</head>
+<body>
+    <div class="wrapper">
+        <main class="home">
+            <div class="home__container">
+                <div class="home__task task"></div>
+                <h3 class="task__title">Додаткове завдання 3</h3>
+                <div class="task__condition">
+                    Розробити конвертер валют. Вводиться курс долара, та кількість гривень. Вивести кількість доларів.
+                    Develop a currency converter. Enter the dollar rate and the amount of hryvnias. Output the number of dollars.
+                </div>
+                <div class="task__computing">
+                    <div id="app">
+                        <label> Enter course
+                            <input type="number" v-model="dollarCourse">
+                        </label>
+                        <label> Enter amount hrivnas
+                            <input type="number" v-model="hrivnas">
+                        </label>
+                        <div>
+                            <span id="dollars">Dollars: {{calcDollarAmount}}</span>
+                        </div>
+                        <div>
+                            <span id="euros">Euros: {{calcEuroAmount}}</span>
+                        </div>
+                    </div>
+                    <script>
+                        const {createApp} = Vue;
+
+                        const app = createApp({
+                            data () {
+                                return {
+                                    dollarCourse: 38,
+                                    hrivnas: null,
+                                }
+                            },
+                            computed: {
+                                calcDollarAmount () {
+                                    if (!isNaN(this.hrivnas) && !isNaN(this.dollarCourse)) {
+                                        return (this.hrivnas / this.dollarCourse).toFixed(2);
+                                    } else {
+                                        return null;
+                                    }
+                                },
+                                calcEuroAmount () {
+                                    return (this.calcDollarAmount * 1.07).toFixed(2);
+                                }
+                            }
+                        }).mount('#app');
+                    </script>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
