@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style/style_task.css">
+    <title>Lesson 1 - home task 1</title>
+</head>
+<body>
+    <div class="wrapper">
+        <main class="home">
+            <div class="home__container">
+                <div class="home__task task"></div>
+                <h3 class="task__title">Урок 1 - Домашнє завдання 1</h3>
+                <div class="task__condition">
+                    <!-- CSS - what i need to finish
+                    author name - center
+                    remove emphasis of author name
+                    check on validators
+                    optimise html and css -->
+
+                    // -----------------------------------------------------------
+                    Задача 1. Вводиться кількість пасажирів. Вивести:
+                    скільки потрібно автобусів (кожен автобус на 20 місць)
+                    скільки пляшок води (кожному пасажиру 2 пляшки)
+                    скільки бутербродів (кожному пасажиру 3 бутерброди)
+
+                    Task 1. Enter the number of passengers. Output:
+                    how many buses are needed (each bus has 20 seats)
+                    how many bottles of water (2 bottles per passenger)
+                    how many sandwiches (3 sandwiches for each passenger)
+                    
+                    // -----------------------------------------------------------
+
+                    <div class="vue__app" id="app">
+                        <div class="input__container">
+                            <label>
+                                Enter passangers number: <input type="text" v-model='passangers'>
+                            </label>
+                        </div>
+                        <div class="result__container">
+                            <p>Busses are needed: <span>{{calculateBusses}}</span></p> 
+                            <p>Bottles of watter are needed: <span>{{calculateBottles}}</span></p>
+                            <p>Sandwiches are needed: <span>{{calculateSandwiches}}</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="task__computing">
+                    <script>
+                            const {createApp} = Vue;
+
+                            const app = createApp ({
+                                data() {
+                                    return {
+                                        passangers: null,
+                                    }
+                                },
+                                computed: {
+                                    calculateBusses() {
+                                        return Math.ceil(this.passangers/20);
+                                    },
+                                    calculateBottles(){
+                                        return this.passangers*2;
+                                    }, 
+                                    calculateSandwiches() {
+                                        return this.passangers*3;
+                                    }
+                                }
+                            });
+                            app.mount('#app');        
+                    </script>
+                    <style>
+                        .task__computing {
+                            
+                        }
+
+                        #app {
+                            width: 350px;
+                            margin: 0 auto;
+                            margin-top: 50px;
+                        }
+
+                        .result__container {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                        }
+
+                        .input__container {
+
+                        }
+                    </style>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
