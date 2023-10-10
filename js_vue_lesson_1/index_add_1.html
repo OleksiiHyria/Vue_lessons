@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style_task.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Additional task 1</title>
+</head>
+<body>
+    <div class="wrapper">
+        <main class="home">
+            <div class="home__container">
+                <div class="home__task task"></div>
+                <h3 class="task__title">Додаткове завдання 1</h3>
+                <div class="task__condition">
+                    <div id="myApp">
+                        <div>
+                            <label>
+                                One
+                                <input type="number" v-model="num1">
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                Two
+                                <input type="number" v-model="num2">
+                            </label>
+                        </div>
+                        <div>Sum <span id='sum'>{{num1 + num2}}</span></div>
+                        <div>Mult <span id='mult'>{{num1 * num2}}</span></div>
+                        <button @click="onClear">Clear</button>
+                    </div>
+                </div>
+                <div class="task__computing">
+                    <script>
+                        const {createApp} = Vue;
+                        const app = createApp({
+                            data () {
+                                return {
+                                    num1: 0,
+                                    num2: 0,
+                                }
+                            },
+                            methods: {
+                                onClear () {
+                                    this.num1 = 0
+                                    this.num2 = 0
+                                },
+                            },
+                        });
+
+                        app.mount('#myApp');
+                    </script>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

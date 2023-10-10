@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style/style_task.css">
+    <title>Lesson 1 - home task 5</title>
+</head>
+<body>
+    <div class="wrapper">
+        <main class="home">
+            <div class="home__container">
+                <div class="home__task task"></div>
+                <h3 class="task__title">Урок 1 - Домашнє завдання 5</h3>
+                <div class="task__condition">
+                    Задача 5. Додаток містить масив об’єктів (логін, пароль) --  інсуючі логіни і паролі. 
+                    Користувач вводить логін і пароль, а програма повідомляє чи може користувач бути авторизованим (чи є він одним з масиву).
+                    <br>
+                    Task 5. The application contains an array of objects (login, password) -- insuring logins and passwords.
+                    The user enters a login and password, and the program informs whether the user can be authorized (whether he is one of the array).
+                </div>
+                <div class="task__computing">
+                    <div id="app">
+                        <div class="inputs__container">
+                            <label>Login
+                                <input v-model="login" type="text">
+                            </label>
+                            <label>Password
+                                <input v-model="password" type="text">
+                            </label>
+                        </div>
+                        <div class="button__container">
+                            <button @click="check">Check</button>
+                        </div>
+                        <div class="result__block">
+                            <span :style="{color:textColor}">{{result}}</span>
+                        </div>
+                    </div>
+                    <script>
+                        const {createApp} = Vue;
+                        const app = createApp ({
+                            data (){
+                                return {
+                                    login: '',
+                                    password: '',
+                                    result: '', 
+                                    usersData: [
+                                        {login: 'Oleksii', password: '111111'},
+                                        {login: 'Magamet', password: '78ty45'},
+                                        {login: 'KakunaMatata', password: '90!@#!2390'},
+                                        {login: 'Grom2006', password: 'tre89fdsa'},
+                                        {login: 'Artemiy1987', password: 'MarkoPolo67'},
+                                        {login: 'Margo13', password: 'kjyrcv5678'},
+                                        {login: 'Krid19', password: '8u7y6t5r'},
+                                        {login: 'Misisipi45', password: '15.06.1976'},
+                                        {login: 'Orlando', password: 'Blum24'},
+                                        {login: 'Jesika16', password: 'JesJes'},
+                                    ],
+                                    textColor: '',
+                                }
+                            },
+                            methods: {
+                                check () {
+                                    this.result = '';
+
+                                    if (!this.login) {
+                                        this.result = 'Login is requered!';
+                                        this.textColor = '#fa5c5c';
+                                        return;
+                                    }
+
+                                    if (!this.password) {
+                                        this.result = 'Password is required!';
+                                        this.textColor = '#fa5c5c';
+                                        return;
+                                    }
+
+                                    this.authentification();
+                                },
+
+                                authentification () {
+                                    let userFlag = false;
+                                    this.usersData.forEach(user => {
+                                        if (this.login === user.login && this.password === user.password) {
+                                            userFlag = true;
+                                        };
+                                    });
+
+                                    if (userFlag) {
+                                            this.result = `User ${this.login} founded`;
+                                            this.textColor = 'green';
+                                        } else {
+                                            this.result =`User ${this.login} does not exist.`;
+                                            this.textColor = 'red';
+                                        }
+                                }
+                            }
+                        });
+
+                        app.mount('#app');
+                    </script>
+                    <style>
+                        .task__computing {
+                            padding-top: 50px;
+                        }
+                        #app{
+                            padding: 20px;
+                            width: 250px;
+                            margin: 0 auto;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 20px;
+                            border: 1px solid #777777;
+                            border-radius: 5px;
+                            box-shadow: 1px 1px 10px #777777;
+                            font-size: 14px;
+                            height: 150px;
+                            color: #446547;
+                        }
+
+                        .inputs__container {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-end;
+                            gap: 20px;
+                        }
+
+                        button {
+                            padding: 5px 10px;
+                            transition: all 0.4s;
+                            border: none;
+                            background-color: #646b65;
+                            color: #f0eeee;
+                            width: 80px;
+                            border-radius: 5px;
+                        }
+
+                        button:hover {
+                            background-color:  #6d816f;
+                            color: #fff;
+                            translate: 1px 1px;
+                        }
+
+                        .task__computing {
+
+                        }
+
+                        .button__container {
+                            align-self: center;
+                        }
+
+                        .result__block {
+                            align-self: center;
+                        }
+                    </style>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
