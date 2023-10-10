@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style/style_task.css">
+    <title>Lesson 1 - home task 4</title>
+</head>
+<body>
+    <div class="wrapper">
+        <main class="home">
+            <div class="home__container">
+                <div class="home__task task"></div>
+                <h3 class="task__title">Урок 1 - Домашнє завдання 4</h3>
+                <div class="task__condition">
+                    Задача 4. “Рахунок у банку”
+                    Вимоги:
+                    1) Спочатку сума дорівнює 0грн. Змінити суму у гривнях можна або зарахуванням на рахунок, або зняттям.
+                    2) Сума автоматично переводиться у долари та євро (фіксований курс задається у data).
+                    3) можливість зарахувати суму (контролювати, щоб не була від’ємною)
+                    4) можливість зняти (щоб не можна зняти більше ніж є на рахунку)
+                    5) при виконанні зняття і зарахування коштів вираховувати 3% від суми (відображати кількість відсотків автоматично)
+
+                    При зміні суми :
+                    - якщо було зняття, то суму відоражати червоним
+                    - якщо було зарахування, то суму відображати зеленим
+                    Якщо сума валюти менша за 100 то відображати червоним кольором, інакше - зеленим
+                    <br>
+                    <br>
+                    Task 4. "Bank account"
+                    Requirements:
+                    1) Initially, the amount is 0 hryvnias. You can change the amount in hryvnias either by crediting the account or withdrawing it.
+                    2) The amount is automatically converted into dollars and euros (the fixed exchange rate is set in data).
+                    3) the possibility of crediting the amount (check that it is not negative)
+                    4) the ability to withdraw (so that you cannot withdraw more than is on the account)
+                    5) when withdrawing and depositing funds, deduct 3% from the amount (display the amount of interest automatically)
+
+                    When changing the amount:
+                    - if there was a withdrawal, the amount should be displayed in red
+                    - if there was a credit, the amount should be displayed in green
+                    If the amount of currency is less than 100, then display it in red, otherwise - in green
+                    <div id="app">
+                        <div class="atm__container">
+                            <div class="balance__container">
+                                <h4>Current balance UAH: <span>{{balance}}</span></h4>
+                            </div>
+                            <div class="input__container"></div>
+                            <label>
+                                <input type="text" v-model.number="enteredSum" @click="clearInput" @blur="emptyImputFill">
+                            </label>
+                            <div class="buttons__container">
+                                <button @click="replenishment">Replenishment</button>
+                                <button @click="withdraw">Withdraw</button>
+                            </div>
+                            <div class="currency__container" :style="{color: textColor}">
+                                <h4>Currency current balance:</h4> 
+                                <p>Balance USD: <span>{{usdBalance}}</span></p>
+                                <p>Balance EUR: <span>{{euroBalance}}</span></p>                              
+                            </div>
+                            <div class="operation-result">
+                                <span>{{infoMessage}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="task__computing">
+                    <script>
+                    const {createApp} = Vue;
+                    const app = createApp({
+                        data () {
+                            return {
+                                balance: 0,
+                                usdBalance: 0,
+                                euroBalance: 0,
+                                percent: 0.03,
+                                feeText: '3%',
+                                enteredSum: 0,
+                                infoMessage: '',
+                                usdCourse: 38,
+                                euroCourse: 43,
+                                textColor: '#red',
+                            }
+                        }, 
+                        methods: {
+                            sumValidity(){
+                                if (!isNaN(this.enteredSum) && this.enteredSum > 0 && typeof this.enteredSum === 'number'){
+                                    return parseInt(this.enteredSum);
+                                } else {
+                                    throw new Error('Entered not valid sum.');
+                                }
+                            }, 
+                            checkBalance () {
+                                if (this.balance < 100) {
+                                    this.textColor = 'red'
+                                } 
+                            },
+                            refreshCurrencyBalance() {
+                            this.usdBalance = parseFloat((this.balance / this.usdCourse).toFixed(2));
+                            this.euroBalance = parseFloat((this.balance / this.euroCourse).toFixed(2));
+                            this.balance = parseFloat(this.balance.toFixed(2)) ;
+                            },
+                            withdraw () {
+                                try {
+                                    const withdrawSum = this.sumValidity();
+                                    const operationFee = parseFloat((withdrawSum * this.percent).toFixed(2));
+                                    const withdrawSumPlusFee = withdrawSum + operationFee;
+                                if (withdrawSumPlusFee <= this.balance) {
+                                    this.balance -= (withdrawSum + operationFee);
+                                    this.textColor = 'red';
+                                    this.checkBalance();
+                                    this.refreshCurrencyBalance();
+                                    this.infoMessage = `
+                                    Withdrawal operation succesful. 
+                                    Amount of withdrawal: ${this.sumValidity()} UAH.
+                                    Fee charged(${this.feeText}): ${operationFee} UAH.
+                                    Your current balance ${this.balance.toFixed(2)} UAH.`;
+                                } else {
+                                    this.infoMessage = `You do not have enough money. Current balance ${parseFloat(this.balance.toFixed(2))} UAH.`;
+                                }
+                                } catch (error) {
+                                    this.infoMessage = error.message;
+                                }
+                            },
+                            replenishment (){
+                                try {
+                                    const replenismentSum = this.sumValidity();
+                                    const operationFee = parseFloat((replenismentSum * this.percent).toFixed(2));
+                                    this.balance = this.balance + replenismentSum - operationFee;
+                                    this.infoMessage = `
+                                    Replenishment operation succesful. 
+                                    Amount of replenishment: ${this.sumValidity()} UAH. 
+                                    Fee charged (${this.feeText}): ${operationFee} UAH. 
+                                    Your current balance ${this.balance.toFixed(2)} UAH.`;                                
+                                    this.textColor = 'green';
+                                    this.checkBalance();
+                                    this.refreshCurrencyBalance();
+                                } catch (error) {
+                                    this.infoMessage = error.message;
+                                }
+                            },
+                            clearInput () {
+                                this.enteredSum = ''
+                            }, 
+                            emptyImputFill () {
+                                if (this.enteredSum.toString().trim() === '') {
+                                    this.enteredSum = 0;
+                                }
+                            },
+                        },
+                    }
+                    );
+
+                    app.mount('#app');
+                    </script>
+
+                    <style>
+                        .task__computing {
+                        }
+
+                        .atm__container {
+                            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+                            border: 1px solid rgb(183, 175, 175);
+                            width: 400px;
+                            margin: 0 auto;
+                            margin-top: 50px;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            gap: 10px;
+                            box-shadow: 10px 10px 10px #777;
+                            border-radius: 5px;
+                            font-size: 14px;
+                            padding: 20px;
+                            background-color: rgba(208, 192, 192, 0.477);
+                        }
+
+                        .balance__container {
+
+                        }
+
+                        .balance__container h4 {
+                            padding: 0;
+                        }
+                        .input__container {
+
+                        }
+
+                        input, button {
+                            box-shadow: 1px 1px 1px #777;
+                            border: none;
+                            border-radius: 5px;
+                        }
+
+                        input {
+                            width: 96px;
+                            padding: 5px;
+                            background-color: rgb(227, 220, 220);
+                        }
+
+                        .buttons__container {
+                            display: flex;
+                            gap: 10px;
+                            flex-direction: column;
+                        }
+
+                        button {
+                            width: 110px;
+                            padding: 5px;
+                        }
+
+                        .currency__container {
+
+                        }
+                        .operation-result {
+                            text-align: center;
+                            text-shadow: 0.2px 0.2px 1px rgb(216, 64, 64);
+                        }
+                    </style>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

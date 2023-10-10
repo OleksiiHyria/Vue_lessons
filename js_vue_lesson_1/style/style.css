@@ -1,0 +1,126 @@
+
+/* ----------------------------------------------------- */
+
+body {
+    font-family: 'Montserrat', sans-serif;;
+    background-color: #F0F0F0;
+}
+
+.wrapper {
+    min-height: 100%;
+    overflow: clip;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper > main {
+    flex-grow: 1;
+}
+
+.home {
+}
+
+.home__container {
+    max-width: 1230px;
+    padding: 30px 15px;
+    margin: 0 auto;
+
+}
+
+
+.home__homework {
+}
+
+.homework {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #42b983;
+    border-radius: 5px;
+    /* background-color: rgb(198, 225, 241); */
+}
+
+.homework__header {
+    width: 100%;
+    background-color: #3061a7;
+    /* background-color: #808080; */
+    border-radius: 5px;
+    position: relative;
+    text-align: center;
+    height: 125px;
+    margin-bottom: 20px;
+}
+
+.homework__header img {
+    position: absolute;
+    top: 8px;
+    left: 20px;
+    max-width: 100px;
+    max-height: 100px;
+}
+
+@media screen and (max-width: 750px){
+    .homework__header img {
+        display: none;
+    }
+}
+
+.homework__title {
+    color: #fff;
+    text-align: center;
+    font-weight: 400;
+}
+
+.title__vue-style {
+    color: #273849;
+    font-weight: 600;
+    padding-right: 2px;
+}
+
+.title__js-style {
+    color: #fee906;
+    font-weight: 400;
+    padding-left: 2px;
+}
+
+.homework__header a {
+}
+
+.homework__author {
+    text-decoration: underline;
+    text-align: center;
+    color: #ffffff;
+}
+
+.homework__item {
+}
+
+.homework__content {
+    padding: 20px 0;
+    font-weight: 700;
+}
+
+.homework__content a {
+    text-decoration: none;
+    color: #273849;
+    transition: all 0.4s;
+}
+
+.homework__content a:hover {
+    color: #F0F0F0;
+}
+
+.active {}
+
+.active::before {
+    content: '+';
+    color: rgb(218, 27, 27);
+}
+
+/* it is not work - decide why */
+.active:hover::before {
+    transform: rotate(90deg);
+    transition: all 0.3s;
+}
+
