@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style/style_task.css">
+    <title>Lesson 2 - home task 3</title>
+</head>
+<body>
+    <div class="wrapper">
+        <main class="home">
+            <div class="home__container">
+                <div class="home__task task"></div>
+                <h3 class="task__title">Урок 2 - Домашнє завдання 3</h3>
+                <div class="task__condition">
+                    Задача 3. Елемент тренажера англійської. Виводимо зображення елемента і слово. Користувач вводить відповідь. 
+                    Якщо вірно – відтворюємо фразу «Добре. Молодець!» (і додаємо зелену рамку до елемента), 
+                    якщо ні - то відтворюємо фразу «Невірно, спробуйте ще раз» (і додаємо червону рамку).
+                    <br>
+                    <br>
+                    Task 3. An element of the English simulator. We display the image of the element and the word. The user enters the answer.
+                    If it is true, we reproduce the phrase "Okay. Well done!" (and add a green frame to the element),
+                    if not, then we reproduce the phrase "Incorrect, try again" (and add a red frame).
+                </div>
+                <div class="task__computing">
+                    <div class="app__container" id="app">
+                        <div v-if="currentWordIndex < wordsList.length">
+                            <div class="word-card" :class="{'wrongAnswer': isCorrect === false, 'rightAnswer': isCorrect === true && isCorrect !== null}">
+                                <div>
+                                    <img :src="wordsList[currentWordIndex].picture" alt="Word picture." :style="{width: '150px'}">
+                                </div>
+                                <p class="word-card__guess-word">{{wordsList[currentWordIndex].name}}</p>
+                                <label for="tryToGuess + currentWordIndex">Your translation</label>
+                                <input type="text" id="tryToGuess + currentWordIndex" v-model="userAnswer">
+                                <button @click="checkAnswer()">Check</button>
+                            </div>
+
+                            <div v-if="showResult">
+                                <p v-if="isCorrect" :style="{color: 'green'}">{{correctAnswerMessage}}</p>
+                                <p v-else :style="{color: 'red'}">{{notCorrectAnswerMessage}}</p>
+                            </div>
+                        </div>
+                        <div class="final__result" v-else>
+                            All words have been guessed! Great job!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let words = [
+            { 
+                name: 'table',
+                translation: 'Стіл',
+                picture: 'https://cdn-images.article.com/products/SKU379A/2890x1500/image81730.jpg',
+            },
+            { 
+                name: 'dog',
+                translation: 'Собака',
+                picture: 'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
+            },
+            { 
+                name: 'cat',
+                translation: 'Кіт',
+                picture: 'https://static01.nyt.com/images/2021/09/14/science/07CAT-STRIPES/07CAT-STRIPES-superJumbo.jpg',
+            },
+            { 
+                name: 'car',
+                translation: 'Машина',
+                picture: 'https://carwow-uk-wp-3.imgix.net/18015-MC20BluInfinito-scaled-e1666008987698.jpg',
+            },
+            { 
+                name: 'house',
+                translation: 'Дім',
+                picture: 'https://www.livehome3d.com/assets/img/social/how-to-design-a-house.jpg',
+            },
+        ];
+
+        const { createApp } = Vue;
+        const app = createApp ({
+            data() {
+                return {
+                    userAnswer: '',
+                    isCorrect: null,
+                    showResult: false,
+                    correctAnswerMessage: 'Okay. Well done!',
+                    notCorrectAnswerMessage: 'Incorrect, try again',
+                    currentWordIndex: 0,
+                    wordsList: words,
+                }
+            },
+            methods: {
+                checkAnswer() {
+                    if (this.userAnswer && this.wordsList[this.currentWordIndex].translation.toLowerCase() === this.userAnswer.toLowerCase()) {
+                        this.isCorrect = true;
+                        this.showResult = true;
+                        this.currentWordIndex++;
+                        this.userAnswer = '';
+                    } else {
+                        this.isCorrect = false;
+                        this.showResult = true;
+                    }
+                },
+            },
+        }).mount('#app');
+    </script>
+
+    <style>
+        .wrongAnswer {
+            border: 1px solid red;
+        }
+
+        .rightAnswer {
+            border: 1px solid green;
+        }
+
+        .app__container {
+            width: 200px;
+            margin: 0 auto;
+            margin-top: 50px;
+            padding: 20px;
+            border: 1px solid #777;
+            border-radius: 5px;
+            background-color: rgb(231, 224, 224);
+            box-shadow: 1px 1px 10px rgb(151, 208, 151); 
+        }
+
+        .word-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 5px;
+        }
+
+        .word-card__guess-word {
+            color: rgb(62, 75, 147);
+            font-weight: 600;
+        }
+
+        .final__result {
+            color: rgb(39, 117, 59);
+            text-align: center;
+            font-style: italic;
+        }
+        
+        button {
+            padding: 5px 20px;
+            border: none;
+            background-color: rgb(245, 147, 55);
+            box-shadow: 1px 1px 10px rgb(248, 136, 136);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translate(0px, 1px);
+        }
+
+    </style>
+</body>
+</html>

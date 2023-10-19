@@ -1,0 +1,39 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hola</title>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+
+    <body>
+        <div id="app">
+            <div>{{random}}</div>
+            <button @click="generateRandom" v-show="isVisible">Generate</button>
+        </div>
+        <script>
+            const {createApp} = Vue;
+            const app = createApp ({
+                data () {
+                    return {
+                        random: 1,
+                    }
+                },
+                computed: {
+                    isVisible () {
+                        return this.random && this.random % 2 !== 0;
+                    }
+                }, 
+                methods: {
+                    generateRandom () {
+                        setInterval(() => {
+                            this.random = Math.floor(Math.random() * 10);
+                        }, 2000);
+                    }
+                }
+            }).mount('#app')
+        </script>
+    </body>
+    </html>

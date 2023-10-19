@@ -1,0 +1,63 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hola</title>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+
+    <body>
+        <!-- Приклад. Розробити список покупок. Корстувач у формі поступово додає назву товару і кількість і товари
+    поступово додаються у список покупок. -->
+
+        <div id="app">
+            <label>Enter product name: <input type="text" v-model="productName"></label>
+            <label>Enter amount of products: <input type="number" v-model="productsAmount"></label>
+            <label>Enter product price <input type="number" v-model="productPrice"></label>
+            <div>Total sum by product: {{totalProductsPrice}}</div>
+            <button @click="saveProduct">Save</button>
+            <hr>
+            <h3>List of products</h3>
+            <div>
+                <ol>
+                        productName: null,
+                    <li v-for="(product, index) in productsList" :key="index">{{product.productName}} - {{product.productsAmount}} - {{product.productPrice}} - {{product.totalProdPrice}}</li>
+                </ol>
+            </div>
+        </div>
+        <script>
+            const {createApp} = Vue;
+            const app = createApp ({
+                data () {
+                    return {
+                        productName: null,
+                        productsAmount: null,
+                        productPrice: null,
+                        totalProdPrice: null,
+                        productsList: [],
+                    }
+                },
+                computed: {
+                    totalProductsPrice () {
+                        return this.productPrice*this.productsAmount;
+                    },
+                },
+                methods: {
+                    saveProduct() {
+                        this.productsList.push({
+                            productName: this.productName,
+                            productsAmount: this.productsAmount,
+                            productPrice: this.productPrice,
+                            totalProdPrice: this.totalProductsPrice,
+                        });
+                        this.productName = null,
+                        this.productsAmount = null,
+                        this.productPrice = null
+                    },
+                }
+            }).mount('#app');
+        </script>
+    </body>
+    </html>

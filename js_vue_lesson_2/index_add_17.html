@@ -1,0 +1,66 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hola</title>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+    <body>
+        <!-- Приклад. Дано масив з побажаннями. Вибрати випадковим чином 4 із них -->
+        <div id="app">
+            <div v-for="wish in 4">
+                <div>{{wish}} - {{generateRandomWish()}}</div>
+            </div>
+            <script>
+                const {createApp} = Vue;
+
+                const wishes = [
+                                {
+                                id: 1,
+                                wish: 'Нехай у вас буде чудовий день!',
+                                },
+                                {
+                                id: 2,
+                                wish: 'Бажаю вам щастя і радості!',
+                                },
+                                {
+                                id: 3,
+                                wish: 'Нехай у вас все буде добре!',
+                                },
+                                {
+                                id: 4,
+                                wish: 'Нехай ваша мрія збудеться!',
+                                },
+                                {
+                                id: 5,
+                                wish: "Бажаю вам міцного здоров'я!",
+                                },
+                                {
+                                id: 6,
+                                wish: 'Нехай у вас буде багато успіхів!',
+                                },
+                                {
+                                id: 7,
+                                wish: 'Бажаю вам завжди залишатися собою!',
+                                },
+                            ]
+
+
+                const app = createApp ({
+                    data() {
+                        return {
+                        }
+                    },
+                    methods: {
+                        generateRandomWish () {
+                            let randomWishIndex = Math.floor(Math.random() * wishes.length);
+                            return wishes[randomWishIndex].wish;
+                        }
+                    }
+                }).mount('#app');
+            </script>
+        </div>
+    </body>
+    </html>

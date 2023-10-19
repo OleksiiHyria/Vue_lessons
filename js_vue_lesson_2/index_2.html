@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style/style_task.css">
+    <title>Lesson 1 - home task 2</title>
+</head>
+<body>
+    <div class="wrapper">
+        <main class="home">
+            <div class="home__container">
+                <div class="home__task task"></div>
+                <h3 class="task__title">Урок 1 - Домашнє завдання 2</h3>
+                <div class="task__condition">
+                    Задача 2. З випадаючого списку вибираємо клас квитка у літаку. Якщо 
+                        1) бізнес -  виводимо елементи для вибору газети та коньяку (якщо вибрано коньяк, то запропонувати закуску (так/ні)), на фоні зображення бізнес кают 
+                        2) економ – виводимо елементи для вибору типу пива і чипсів, на фоні хмарки.
+                    <br>
+                    <br>
+                    Task 2. Select the class of the plane ticket from the drop-down list. If
+                        1) business - display elements for choosing a newspaper and brandy (if brandy is selected, then offer a snack (yes/no)), on the background of an image of business cabins
+                        2) economy - we display elements for choosing the type of beer and chips, on the background of a cloud.
+
+                </div>
+                <div class="task__computing">
+                    <div id="app" class="app__container">
+                        <div  :class="setBackground">
+                            <div class="select__container">
+                                <label for="ticketClass">Select the class of plane ticket:</label>
+                                <select id="ticketClass" v-model="selectedClass">
+                                    <option value="none">None</option>
+                                    <option value="business">Bussiness class</option>
+                                    <option value="economy">Economy class</option>
+                                </select>
+    
+                                <div class="class-type__business" v-if="selectedClass === 'business'">
+                                    <label for="chooseNewspaper">Choose a newspaper:</label>
+                                    <select id="chooseNewspaper"> 
+                                        <option value="none">None</option>
+                                        <option value="wsj">The Wall Street Journal</option>
+                                        <option value="nyt">The New York Times</option>
+                                        <option value="usa">USA Today</option>
+                                        <option value="wp">The Washington Post</option>
+                                        <option value="ct">Chicago Tribune</option>
+                                    </select>
+    
+                                    <label for="chooseBrandy">Choose a brandy:</label>
+                                    <select id="chooseBrandy" v-model="brandy">
+                                        <option value="none">None</option>
+                                        <option value="hennessy">Hennessy</option>
+                                        <option value="sc">Sullivan's Cove</option>
+                                        <option value="martell">Martell</option>
+                                        <option value="giffard">Giffard</option>
+                                        <option value="bardinet">Bardinet</option>
+                                    </select>
+    
+                                    <div v-if="brandy !== 'none'">
+                                        <label for="snack">Would you like a snack?</label>
+                                        <select id="snack">
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+    
+                                <div class="class-type__economy" v-if="selectedClass === 'economy'">
+                                    <label for="beer">Choose a type of beer:</label>
+                                    <select id="beer" v-model="beer">
+                                        <option value="none">None</option>
+                                        <option value="guinness">Guinness Draught</option>
+                                        <option value="bm">Blue Moon Belgian White Wheat Beer</option>
+                                        <option value="hl">Heineken Lager</option>
+                                        <option value="budweiser">Budweiser</option>
+                                    </select>
+    
+                                    <div v-if="beer !== 'none'">
+                                        <label for="cheeps">Choose a type of chips:</label>
+                                        <select id="cheeps">
+                                            <option value="none">None</option>
+                                            <option value="oven">Oven</option>
+                                            <option value="pringels">Pringels</option>
+                                            <option value="lays">Lays</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            const {createApp} = Vue;
+                            const app = createApp ({
+                                data () {
+                                    return {
+                                        selectedClass: null,
+                                        brandy: 'none',
+                                        beer: 'none',
+                                        background: '',
+                                    }
+                                },
+                                computed: {
+                                    setBackground () {
+                                        if (this.selectedClass === 'business') {
+                                            this.background = 'businessClassPicture';
+                                        } else  if (this.selectedClass === 'economy'){
+                                            this.background = 'economyClassPicture';
+                                        } else {
+                                            this.background = ''
+                                        }
+                                        return this.background
+                                    }
+                                },
+                                methods: {
+                                }
+                    }).mount('#app');
+                        </script>
+                        <style>
+                            .task__computing {
+                            }
+
+                            .task__computing img {
+                            }
+
+                            .businessClassPicture{
+                                background: url(img/airlines/bussiness.jpg);
+                                background-size: 100% 100%;
+                                width: 800px;
+                                height: 600px;
+                            }
+
+                            .economyClassPicture {
+                                background: url(img/airlines/cloud.webp);
+                                background-size: 100% 100%;
+                                width: 800px;
+                                height: 600px;
+                            }
+
+                            .app__container {
+                                max-width: 800px;
+                                max-height: 600px;
+                                margin: 0 auto;
+                                margin-top: 50px;
+                                padding: 20px;
+                                border-radius: 5px;
+                                box-shadow: 1px 1px 10px #777;
+                            }
+
+                            .select__container {
+                                width: 300px;
+                                margin: 0 auto;
+                                align-items: center;
+                                display: flex;
+                                flex-direction: column;
+                                padding-top: 50px;
+                                gap: 10px;
+                            }
+
+                            .class-type__business {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                gap: 10px;
+                            }
+
+                            .class-type__economy {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                gap: 10px;
+                            }
+                        </style>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

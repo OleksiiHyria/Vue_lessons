@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style/style_task.css">
+    <title>Additional task 3</title>
+</head>
+<body>
+    <div class="wrapper">
+        <main class="home">
+            <div class="home__container">
+                <div class="home__task task"></div>
+                <h3 class="task__title">Додаткове завдання 3</h3>
+                <div class="task__condition">
+                    Age input
+                </div>
+                <div class="task__computing">
+                    <div id="app">
+                        <label>Age
+                            <input type="number" min="14" max="70" :class="{'empty': isEmpty, 'yung': isToYung, 'old': isToOld, 'valid': !isEmpty && !isToYung && !isToOld}" v-model="personAge">
+                        </label>
+                    </div>
+                    <script>
+                        const {createApp} = Vue;
+                        const app = createApp ({
+                            data () {
+                                return {
+                                    personAge: null,
+                                };
+                            },
+                            computed: {
+                                isEmpty () {
+                                    return !this.personAge
+                                },
+                                isToYung () {
+                                    return this.personAge < 18;
+                                },
+                                isToOld () {
+                                    return this.personAge > 65;
+                                }
+                            }
+                        });
+
+                        app.mount('#app');
+                    </script>    
+                    <style>
+                        .empty {
+                            background-color: grey;
+                        }
+
+                        .yung {
+                            background-color: gold;
+                        }
+
+                        .valid {
+                            background-color: green;
+                        }
+
+                        .old {
+                            background-color: red;
+                        }
+                    </style>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

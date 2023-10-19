@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style/style_task.css">
+    <title>Lesson 1 - home task 5</title>
+</head>
+<body>
+    <style>
+        .task__computing {
+
+        }
+
+        .site__container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .site-header__box {
+            display: flex;
+            gap: 20px;
+        }
+
+        .site__logo {
+
+        }
+
+        .site-header__container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .site-header__container div {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .content__container {
+
+        }
+
+    </style>
+    <div class="wrapper">
+        <main class="home">
+            <div class="home__container">
+                <div class="home__task task"></div>
+                <h3 class="task__title">Урок 2 - Домашнє завдання 5</h3>
+                <div class="task__condition">
+                    Задача 5. Самостійно сформуйте масив даних та виведіть фрагмент на зразок поданого (дані не обов’язково повинні співпадати).
+                    <br>
+                    <br>
+                    Task 5. Create an array of data independently and display a fragment like the one provided (the data does not necessarily have to match).
+                    <br>
+                    <br>
+                    <hr>
+                    <br>
+                </div>
+                <div class="task__computing">
+                    <div id="app">
+                        <div class="site__container" v-for="(page, index) in listPages" :key="index">
+                            <div>
+                            <div class="site-header__box">
+                                <div class="site__logo">
+                                    <a :href="page.homePageLink"> <img :src="page.logoLink" alt="Logo" :style="{width: '50px'}"></a> 
+                                </div>
+                                <div class="site-header__container">
+                                    <div>{{page.homePage}}</div>
+                                    <a :href="page.homePageLink">{{page.homePageLink}}</a>
+                                </div>
+                            </div>                        
+                            <div class="content__container">
+                                <a :href="page.pageLink"><h3>{{page.titlePage}}</h3></a>
+                                <p>{{page.textContent}}</p>
+                            </div>
+                            <hr>
+                        </div>
+                        </div>
+                        <script>
+                            const {createApp} = Vue;
+
+                            const arrayOfObjects = [
+                                {
+                                    logoLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/640px-HTML5_logo_and_wordmark.svg.png',
+                                    homePage: 'W3Schools',
+                                    homePageLink: 'https://www.w3schools.com/',
+                                    titlePage: 'HTML Tutorial',
+                                    pageLink: 'https://www.w3schools.com/html/default.asp',
+                                    textContent: 'HTML is the standard markup language for Web pages. With HTML you can create your own Website. HTML is easy to learn - You will enjoy it!',
+                                },
+                                {
+                                    logoLink: 'https://www.w3schools.com/images/w3schoolscom_gray.gif',
+                                    homePage: 'W3Schools (Alternate)',
+                                    homePageLink: 'https://www.w3schools.com/',
+                                    titlePage: 'HTML Tutorial (Alternate)',
+                                    pageLink: 'https://www.w3schools.com/html/default.asp',
+                                    textContent: 'Learn HTML - For Beginners and Advanced - W3Schools',
+                                },
+                                {
+                                    logoLink: 'https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_1280.png',
+                                    homePage: 'FreeCodeCamp',
+                                    homePageLink: 'https://www.freecodecamp.org/',
+                                    titlePage: 'Responsive Web Design Certification',
+                                    pageLink: 'https://www.freecodecamp.org/learn/responsive-web-design/',
+                                    textContent: 'Learn to design and build websites. Build projects. Earn certifications.',
+                                },
+                                {
+                                    logoLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/CSS3_logo_and_wordmark.svg/512px-CSS3_logo_and_wordmark.svg.png',
+                                    homePage: 'W3Schools',
+                                    homePageLink: 'https://www.w3schools.com/',
+                                    titlePage: 'CSS Tutorial',
+                                    pageLink: 'https://www.w3schools.com/css/default.asp',
+                                    textContent: 'CSS is the language we use to style an HTML document.',
+                                },
+                                {
+                                    logoLink: 'https://play-lh.googleusercontent.com/LIGo0qeu7aTc3LFnyDRTV01Q6szr3iG3h2WSqYj7Ef1XFKAS6IvKKuLSpTJn7NJUj-U',
+                                    homePage: 'SoloLearn',
+                                    homePageLink: 'https://www.sololearn.com/',
+                                    titlePage: 'HTML Fundamentals Course',
+                                    pageLink: 'https://www.sololearn.com/Course/HTML/',
+                                    textContent: 'Learn HTML in a greatly improved learning environment with more lessons, real practice opportunity, and community support.',
+                                },
+                                {
+                                    logoLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Wordpress_Blue_logo.png/640px-Wordpress_Blue_logo.png',
+                                    homePage: 'WordPress',
+                                    homePageLink: 'https://wordpress.com/',
+                                    titlePage: 'WordPress.com: Create a Free Website or Blog',
+                                    pageLink: 'https://wordpress.com/',
+                                    textContent: 'Create a free website or build a blog with ease on WordPress.com.',
+                                },
+                                {
+                                    logoLink: 'https://www.djangoproject.com/m/img/logos/django-logo-negative.png',
+                                    homePage: 'Django',
+                                    homePageLink: 'https://www.djangoproject.com/',
+                                    titlePage: 'The Web framework for perfectionists with deadlines',
+                                    pageLink: 'https://www.djangoproject.com/start/',
+                                    textContent: 'Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design.',
+                                },
+                                {
+                                    logoLink: 'https://www.langoly.com/wp-content/uploads/2021/09/coursera-logo.png',
+                                    homePage: 'Coursera',
+                                    homePageLink: 'https://www.coursera.org/',
+                                    titlePage: 'HTML, CSS, and Javascript for Web Developers',
+                                    pageLink: 'https://www.coursera.org/learn/html-css-javascript-for-web-developers',
+                                    textContent: 'This course is designed to start you on a path toward future studies in web development and design.',
+                                },
+                                {
+                                    logoLink: 'https://www.codecademy.com/favicon.ico',
+                                    homePage: 'Codecademy',
+                                    homePageLink: 'https://www.codecademy.com/',
+                                    titlePage: 'Learn HTML',
+                                    pageLink: 'https://www.codecademy.com/learn/learn-html',
+                                    textContent: 'Learn how to structure your webpages with HTML.',
+                                },
+                                {
+                                    logoLink: 'https://w7.pngwing.com/pngs/628/224/png-transparent-bootstrap-plain-wordmark-logo-icon.png',
+                                    homePage: 'Bootstrap',
+                                    homePageLink: 'https://getbootstrap.com/',
+                                    titlePage: 'Build fast, responsive sites with Bootstrap',
+                                    pageLink: 'https://getbootstrap.com/docs/5.1/getting-started/introduction/',
+                                    textContent: 'Bootstrap is a free and open-source CSS framework directed at responsive, mobile-first front-end web development.',
+                                },
+                                ];
+
+                            const app = createApp ({
+                                data() {
+                                    return {
+                                        
+                                    }
+                                },
+                                computed: {
+                                    listPages () {
+                                        return arrayOfObjects;
+                                    }
+                                },
+                                methods: {
+
+                                }
+                            }).mount('#app');
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

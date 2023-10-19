@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style/style_task.css">
+    <title>Additional task 2</title>
+</head>
+<body>
+    <div class="wrapper">
+        <main class="home">
+            <div class="home__container">
+                <div class="home__task task"></div>
+                <h3 class="task__title">Додаткове завдання 2</h3>
+                <div class="task__condition">
+                    Energy level
+                </div>
+                <div class="task__computing">
+                    <div id="app">
+                        <label>
+                            <span :class="[statusColor, statusIcon]">Energy level </span>
+                            <input type="number" min="0" max="100" v-model="energyLevel">
+                        </label>
+                    </div>
+                    <script>
+                        const {createApp} = Vue;
+                        const app = createApp ({
+                            data () {
+                                return {
+                                    energyLevel: 51,
+                                }
+                            },
+                            computed: {
+                                statusColor () {
+                                    let currentStateClass = null;
+                                    if (this.energyLevel > 80) {
+                                        currentStateClass = 'high';
+                                    } else if (this.energyLevel > 30) {
+                                        currentStateClass = 'middle';
+                                    } else {
+                                        currentStateClass = 'low'
+                                    }
+                                    return currentStateClass;
+                                },
+                                statusIcon () {
+                                    let iconClass = null;
+                                    if(this.energyLevel) {
+                                        iconClass = this.energyLevel > 50 ? 'succes' : 'warning';
+                                    } 
+                                    if(this.energyLevel === 0){
+                                        iconClass = 'dead';
+                                    }
+                                    return iconClass;
+                                }
+                            }
+                        }).mount('#app');
+                    </script>
+                    <style>
+                        .high {
+                            background-color: green;
+                        }
+
+                        .middle {
+                            background-color: yellow;
+                        }
+
+                        .low {
+                            background-color: red;
+                        }
+
+                        .succes::before {
+                            content: '✅';
+                        }
+
+                        .warning::before {
+                            content: '⚠️';
+                        }
+
+                        .dead::before {
+                            content: '☠️';
+                        }
+
+                    </style>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

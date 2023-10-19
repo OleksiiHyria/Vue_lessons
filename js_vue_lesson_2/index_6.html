@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style/style_task.css">
+    <title>Lesson 1 - home task 5</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/uuid@3.4.0/dist/umd/uuidv4.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script> // trying to connect uuid -->
+</head>
+<body>
+    <div class="wrapper">
+        <main class="home">
+            <div class="home__container">
+                <div class="home__task task"></div>
+                <h3 class="task__title">Урок 2 - Домашнє завдання 6</h3>
+                <div class="task__condition">
+                    <p>
+                        Задача 6. Задача. На кухню поступають замовлення. Спочатку ми додаємо їх у список “Очікують на виконання”, 
+                    якщо повар береться робити — замовлення переходить у список “Виконуються”,   
+                    якщо замовлення виконано — переходить у список “Готові до виносу”. Якщо натиснути на “Подано” - страва зникає з таблиці. 
+                    Підказка: тут треба зберігати 3 масиви страв ( waitingList, processingList, completedList)
+                    </p>
+                    
+                    <br>
+                    <br>
+                    <p>
+                        Task 6. Task. Orders are coming to the kitchen. First, we add them to the "Awaiting execution" list,
+                    if the cook undertakes to do it, the order goes to the “Processing” list,
+                    if the order is fulfilled, it goes to the "Ready for takeout" list. If you click on "Served" - the dish disappears from the table. 
+                    Hint: here you need to store 3 arrays of dishes (waitingList, processingList, completedList)
+                    </p>
+                    <br>
+                    <br>
+                    <p class="importantText">I had tried to connect UUID and all my attempts failled :-(</p>
+                    <br>
+                    <br>
+                    <hr>
+                    <br>
+                </div>
+                <div class="task__computing">
+                    <div id="app">
+                        <div class="add-dishes__container">
+                            <label for="dishInput">New ordered dish:</label>
+                            <input id="dishInput" type="text" v-model="newDish">
+                            <button @click="addDish">Add dish</button>
+                        </div>
+                        <div class="kitchen-manager__container dishes-manager">
+                            <div class="dishes-manager__waiting-box dishes-status_box"> 
+                                <h4>Waiting for coocking</h4>
+                                <hr>
+                                <ul>
+                                    <li v-for="order in waitingList" :key="order.id"> 
+                                        <span>{{order.name}}</span>
+                                        <button @click="cookDish(order)">Cook</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="dishes-manager__processing-box dishes-status_box">
+                                <h4>Processing dishes</h4>
+                                <hr>
+                                <ul>
+                                    <li v-for="order in processingList" :key="order.id">
+                                        <span>{{order.name}}</span>
+                                        <button @click="serveDish(order)">Cooked</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="dishes-manager__takeout-box dishes-status_box">
+                                <h4>Ready to take out</h4>
+                                <hr>
+                                <ul>
+                                    <li v-for="order in completedList" key="order.id">
+                                        <span>{{order.name}}</span>
+                                        <button @click="deleteDish(order)">Served</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <script >
+                            
+                            // import { v4 as uuidv4 } from 'uuid'; // trying to connect uuid
+                            // uuidv4(); //
+
+                            // const { v4: uuidv4 } = require('uuid'); // trying to connect uuid
+                            // uuidv4();
+
+                            // import { uuid } from 'vue-uuid'; // trying to connect uuid
+
+                            const { createApp } = Vue;
+                            const app = createApp({
+                                
+                                data() {
+                                    return {
+                                        idCounter: 10,
+                                        newDish: '',
+                                        waitingList: [
+                                            { id: 1, name: 'Pasta' },
+                                            { id: 2, name: 'Burger' },
+                                            { id: 3, name: 'Salad' },
+                                            { id: 4, name: 'Burger' },
+                                        ],
+                                        processingList: [
+                                            { id: 5, name: 'Salad' },
+                                            { id: 6, name: 'Shuba' },
+                                            { id: 7, name: 'Salad' },
+                                        ],
+                                        completedList: [
+                                            { id: 8, name: 'Burger' },
+                                            { id: 9, name: 'Burger' },
+                                        ]
+                                    };
+                                },
+                                computed: {
+                                    
+                                },
+                                methods: {
+                                    generateUniqId () {
+                                        return ++this.idCounter;
+                                    },
+                                    addDish() {
+                                        if (this.newDish !== '') {
+                                            // const newID = this.$uuid.v4();
+                                            // const newId = uuidv4(); // trying to connect uuid
+                                            
+                                            const newId = this.generateUniqId();
+                                            this.waitingList.push({id: newId, name: this.newDish.toLowerCase()});
+                                            this.newDish = '';
+                                        }
+                                    },
+                                    cookDish(userOrder) {
+                                        this.waitingList = this.waitingList.filter(order => order.id !== userOrder.id);
+                                        this.processingList.push(userOrder);
+                                    },
+                                    serveDish(userOrder) {
+                                        this.processingList = this.processingList.filter(order => order.id !== userOrder.id);
+                                        this.completedList.push(userOrder);
+                                    },
+                                    deleteDish(userOrder) {
+                                        this.completedList = this.completedList.filter(order => order.id !== userOrder.id);
+                                    },
+                                },
+                            }).mount('#app');
+                        </script>                  
+                        <style>
+                            .task__computing {
+
+                            }
+
+                            #app {
+                                display: flex;
+                                flex-direction: column;
+                                max-width: 1200px;
+                                margin: 0 auto;
+                            }
+
+                            .add-dishes__container {
+                                display: flex;
+                                gap: 20px;
+                                margin-bottom: 50px;
+                                align-items: center;
+                            }
+
+                            .dishes-manager {
+                                display: flex;
+                                gap: 20px;
+                            }
+
+                            .dishes-status_box {
+                                flex: 1 0 300px;
+                                padding: 0 20px;
+                                border-radius: 5px;
+                            }
+
+                            .dishes-status_box ul {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 20px;
+                            }
+
+                            .dishes-manager li {
+                                display: flex;
+                                justify-content: space-between;
+                            }
+
+                            .dishes-manager__waiting-box {
+                                background-color: rgb(228, 195, 195);
+                            }
+
+                            .dishes-manager__processing-box {
+                                background-color: rgb(246, 242, 162);
+                            }
+
+                            .dishes-manager__takeout-box {
+                                background-color: rgb(161, 231, 173);
+                            }
+
+                            button {
+                                padding: 5px;
+                                font-weight: 600;
+                                width: 80px;
+                                box-shadow: 1px 1px 1px rgb(128, 146, 124);
+                                background-color: rgb(147, 189, 141);
+                                border-radius: 2px;
+                                border: none;
+                                color: #fff;
+                                transition: all 0.3s ease;
+                            }
+
+                            button:hover {
+                                transform: translate(1px, 1px);
+                                background-color: rgb(127, 166, 122);
+                            }
+
+                            h4 {
+                                color: rgb(22, 24, 156);
+                            }
+
+                            label {
+                                font-weight: 600;
+                                color: rgb(163, 89, 89);
+                            }
+
+                            hr {
+                                border-color: rgb(203, 29, 29);
+                            }
+
+                            span {
+                                color: rgb(66, 64, 52);
+                            }
+                            .importantText {
+                                color:red
+                            }
+                        </style>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

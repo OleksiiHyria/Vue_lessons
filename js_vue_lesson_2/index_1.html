@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style/style_task.css">
+    <title>Lesson 2 - home task 1</title>
+</head>
+<body>
+    <div class="wrapper">
+        <main class="home">
+            <div class="home__container">
+                <div class="home__task task"></div>
+                <h3 class="task__title">Урок 2 - Домашнє завдання 1</h3>
+                <div class="task__condition">
+                    Задача 1. Вводимо логіна і пароль. Якщо логін пароль вірні відображаємо смайл. Якщо ні, то виводимо помилку введення паролю:
+                        1) якщо логін = Іван – колір повідомлення про помилку синій
+                        2) якщо хтось інший, то колір повідомлення червоний
+                        <br>
+                        <br>
+                        Task 1. Enter the login and password. If the login and password are correct, we display a smiley. If not, then we display a password entry error:
+                        1) if login = Ivan – the color of the error message is blue
+                        2) if someone else, then the color of the message is red
+                </div>
+                <div class="task__computing">
+                    <div id="app">
+                        <form>
+                            <label>Login <input type="text" v-model="userLogin" placeholder="Ivan"></label>
+                            <label>Password <input type="password" v-model="userPassword" placeholder="121212"></label>
+                        </form>
+                        <button @click="userrIsValid">Check</button>
+                        <p :style="{color: userColor}">{{userMessage}}</p>
+                    </div>
+                    <script>
+                            const {createApp} = Vue;
+                            const app = createApp ({
+                                data(){
+                                    return{
+                                        userLogin: '',
+                                        userPassword: '',
+                                        userMessage: '',
+                                        userColor: '',
+                                    }
+                                },
+                                computsed: {
+
+                                },
+                                methods: {
+                                    userrIsValid () {
+                                        let userLogin = this.userLogin.toLowerCase();
+                                        let userPassword = this.userPassword.toLowerCase();
+                                        let validLogin = 'Ivan'.toLowerCase();
+                                        let validPassword = '121212'.toLowerCase();
+
+                                        if (userLogin === validLogin && userPassword === validPassword) {
+                                            this.userMessage = 'You logged successful 😊';
+                                            this.userColor = 'black';
+                                        } else if (userLogin === validLogin) {
+                                            this.userMessage = 'Password incorrect';
+                                            this.userColor = 'blue';
+                                        } else {
+                                            this.userMessage = 'Password incorrect';
+                                            this.userColor = 'red';
+                                        }
+                                    }
+                                }
+                            }).mount('#app');
+                    </script>
+                    <style>
+                        .task__computing {
+                            padding-top: 20px;
+                            width: 400px;
+                            margin: 0 auto;
+                        }
+
+                        .task__computing form{
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: flex-end;
+                            gap: 20px;
+                        }
+
+                        .task__computing div {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            gap: 20px;
+                        }
+                        button {
+                            width: 100px;
+                        }
+                    </style>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

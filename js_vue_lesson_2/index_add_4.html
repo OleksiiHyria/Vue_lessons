@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style/style_task.css">
+    <title>Additional task 3</title>
+</head>
+<body>
+    <div class="wrapper">
+        <main class="home">
+            <div class="home__container">
+                <div class="home__task task"></div>
+                <h3 class="task__title">Додаткове завдання 3</h3>
+                <div class="task__condition">
+                  <!-- Приклад. Вводимо кількість грошей користувача та вартість товару.
+                  Колір кнопки «Купити»:
+                    - не введено якесь значення – сіра,
+                    - недостатньо грошей - червона,
+                    - достатньо грошей – зелена
+                  Якщо вартість покупки більше 1000 грн (елітний) – додати жовту рамку
+                  Якщо вартість покупки білье 100 000 (супер елітний) – додати тінь
+
+                  Шрифт тексту кнопки застосовувати якщо введено дані:
+                  - якщо вартість і ціна співпадають - червоний
+                  - інкше - оранжевий
+                  -->
+                </div>
+                <div class="task__computing">
+                    <div id="app">
+                      <label>Enter sum of user money
+                        <input v-model="userMoney">
+                      </label>
+                      <label> Enter goods price
+                        <input v-model="goodsPrice">
+                      </label>
+                      <button :class="[buttonColor, {'elite':isElite, 'superElite':isSuperElite, [costPriseEqual]:isCompleted}]" >Pay</button>
+                        </div>  
+                    </div>
+
+                    <script>
+                      const {createApp} = Vue;
+                      const app = createApp ({
+                        data () {
+                          return {
+                            userMoney: null,
+                            goodsPrice: null,
+                          }
+                        }, computed: {
+                          isCompleted (){
+                            return this.userMoney && this.goodsPrice;
+                          },
+                          buttonColor (){
+                            let currentCollor = ''
+                            if (!this.isCompleted) {
+                              currentCollor = 'empty';
+                            } else if (this.userMoney >= this.goodsPrice) {
+                              currentCollor = 'allowed';
+                            } else {
+                              currentCollor ='not-allowed';
+                            }
+                            return currentCollor;
+                          },
+                          isElite () {
+                            return this.isCompleted && this.goodsPrice > 1000;
+                          },
+                          isSuperElite() {
+                            return this.isCompleted && this.goodsPrice > 100000;
+                          },
+                          costPriseEqual () {
+                            return this.userMoney === this.goodsPrice ? 'red' : 'orange'
+                          }
+                        }, 
+                        methods: {
+                        }
+                      }).mount('#app');
+                    </script>
+                    <style>
+                      .empty{
+                        background-color: rgb(169, 165, 112);
+                      }
+                      .allowed {
+                        background-color: rgb(125, 169, 85);
+                      }
+                      .not-allowed {
+                        background-color: rgb(246, 120, 120);
+                      }
+                      .red {
+                        color: rgb(120, 18, 18);
+                      }
+                      .orange {
+                        color: rgb(237, 111, 8);
+                      }
+                      .elite {
+                        border: 1px solid rgb(246, 202, 4);
+                      }
+                      .superElite {
+                        box-shadow: 1px 1px 10px red;
+                      }
+
+                    </style>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

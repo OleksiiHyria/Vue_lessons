@@ -1,0 +1,67 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hola</title>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <div v-for="(book, index) in booksList" :key="index">
+                <h2>{{index+1}} - {{book.title}}</h2>
+                <h4>{{book.author}}</h4>
+                <p>{{book.price}}</p>
+                <img :src="book.imageSrc" width="150" alt="Book picture">
+            </div>
+            <script>
+                const {createApp} = Vue;
+
+                const books = [
+                        {
+                        author: 'J.K. Rowling',
+                        title: "Harry Potter and the Sorcerer's Stone",
+                        price: 10.99,
+                        imageSrc:
+                            'https://cdn5.vectorstock.com/i/1000x1000/10/04/a-book-vector-20321004.jpg',
+                        },
+                        {
+                        author: 'J.R.R. Tolkien',
+                        title: 'The Lord of the Rings: The Fellowship of the Ring',
+                        price: 12.99,
+                        imageSrc:
+                            'https://cdn5.vectorstock.com/i/1000x1000/10/04/a-book-vector-20321004.jpg',
+                        },
+                        {
+                        author: 'Harper Lee',
+                        title: 'To Kill a Mockingbird',
+                        price: 9.99,
+                        imageSrc:
+                            'https://cdn5.vectorstock.com/i/1000x1000/10/04/a-book-vector-20321004.jpg',
+                        },
+                        {
+                        author: 'George Orwell',
+                        title: '1984',
+                        price: 8.99,
+                        imageSrc:
+                            'https://cdn5.vectorstock.com/i/1000x1000/10/04/a-book-vector-20321004.jpg',
+                        },
+                    ]
+
+                const app = createApp ({
+                    data(){
+                        return {
+
+                        }
+                    },
+                    computed: {
+                        booksList (){
+                            return books;
+                        }
+                    }
+                }).mount('#app');
+            </script>
+        </div>
+    </body>
+    </html>

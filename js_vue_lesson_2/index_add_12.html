@@ -1,0 +1,41 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hola</title>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <label>Login<input type="text" v-model="login"></label>
+            <template v-if="isAdmin">
+                <label>Password <input type="text" v-model="password"></label>
+                <button>Enter</button>
+            </template>
+            <div v-else>Hello guest</div>
+        </div>
+        <script>
+            const {createApp} = Vue;
+            const app = createApp ({
+                data () {
+                    return {
+                        login: null,
+                        password: null,
+                    }
+                },
+                computed: {
+                    isAdmin () {
+                        return this.checkLogin () === 'admin';
+                    },
+                },
+                methods: {
+                    checkLogin () {
+                        return this.login !== null ? this.login.toLowerCase():null;
+                    },
+                }
+            }).mount('#app');
+        </script>
+    </body>
+    </html>

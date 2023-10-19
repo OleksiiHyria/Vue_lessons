@@ -1,0 +1,35 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hola</title>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+
+    <body>
+        <div id="app">
+            <label>Enter your age <input type="number" min="16" v-model="currentAge"></label>
+            <div v-if="!currentAge">For registration enter your age</div>
+            <div v-else-if="currentAge < 18">Please enter correct age</div>
+            <button v-else>Register</button>
+
+            <script>
+                const {createApp} = Vue;
+                const app = createApp ({
+                    data () {
+                        return {
+                            currentAge: null,
+                        }
+                    }, 
+                    computed: {
+                        isValed () {
+                            return this.currentAge && this.currentAge >= 18;
+                        }
+                    }
+                }).mount('#app');
+            </script>
+        </div>
+    </body>
+    </html>
